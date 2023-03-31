@@ -3,11 +3,14 @@ package com.example.login.Chats
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -62,33 +65,35 @@ fun MessageList(navController: NavController, username: String, secret: String,v
     Column() {
         TopAppBar(
             title = {
-                Column(){
-                    if(username=="Admin"){
+                Column() {
+                    if (username == "Admin") {
                         Text(text = "User")
-                    }else{
+                    } else {
                         Text(text = "Admin")
                     }
-                    if(viewModel.istyping.value&&viewModel.username.value!=viewModel.istypinguser.value){
-                        Column(){
-                            Text(text = "typing...", color= LightGray, fontSize = 15.sp)
+                    if (viewModel.istyping.value && viewModel.username.value != viewModel.istypinguser.value) {
+                        Column() {
+                            Text(text = "typing...", color = LightGray, fontSize = 15.sp)
                         }
                         viewModel.starttyping()
 //                    isTYping=false
                     }
                 }
-                    },
+            },
             navigationIcon = {
-                IconButton(onClick = {navController.navigate("chat_history")}) {
+                IconButton(onClick = { navController.navigate("chat_history") }) {
                     Icon(Icons.Filled.ArrowBack, null)
                 }
             },
             actions = {
-                Image(painter = painterResource(id = com.example.login.R.drawable.pic ),
+                Image(
+                    painter = painterResource(id = com.example.login.R.drawable.pic),
                     contentDescription = "",
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
                         .size(40.dp)
-                        .clip(CircleShape))
+                        .clip(CircleShape)
+                )
             },
             modifier = Modifier.statusBarsPadding()
         )
@@ -100,32 +105,44 @@ fun MessageList(navController: NavController, username: String, secret: String,v
 //        }
 //        Text(text = messageList.size.toString())
 //        if(viewModel.mylist)
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(10.dp),
-            horizontalAlignment = Alignment.Start) {
-            Card(
+
+        if (viewModel.mylist.isEmpty()) {
+            Column(
                 modifier = Modifier
-                    .background(whiteBackground),
+                    .fillMaxWidth()
+                    .padding(10.dp),
+                horizontalAlignment = Alignment.Start
+            ) {
+                Card(
+                    modifier = Modifier
+                        .background(whiteBackground),
 //                                .fillMaxWidth()
 //                                .padding(16.dp),
-                shape = RoundedCornerShape(16.dp),
-                content = {
-                    Text(text = "Welcome to the chat!", modifier = Modifier.padding(5.dp))
-                }
-            )
+                    shape = RoundedCornerShape(16.dp),
+                    content = {
+                        Column(modifier = Modifier.background(Color.DarkGray)) {
+                            Text(
+                                text = "Welcome to the chat!",
+                                color = Color.White,
+                                modifier = Modifier.padding(10.dp),
+                                fontSize = 20.sp
+                            )
+//                                    Text(text = item.sender_username, fontSize = 15.sp, modifier = Modifier.padding(start = 10.dp, bottom = 10.dp))
+                        }
+                    }
+                )
 
+            }
         }
-        LazyColumn(modifier = Modifier.fillMaxHeight(0.82f), reverseLayout = true){
-            itemsIndexed(viewModel.mylist.sortedByDescending { it.created }){
-                index, item ->
-                if(item.sender_username == username){
+        LazyColumn(modifier = Modifier.fillMaxHeight(0.78f), reverseLayout = true) {
+            itemsIndexed(viewModel.mylist.sortedByDescending { it.created }) { index, item ->
+                if (item.sender_username == username) {
                     Column(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(10.dp),
-                        horizontalAlignment = Alignment.End) {
+                        horizontalAlignment = Alignment.End
+                    ) {
                         Card(
                             modifier = Modifier
                                 .background(whiteBackground),
@@ -135,8 +152,15 @@ fun MessageList(navController: NavController, username: String, secret: String,v
                             content = {
                                 Column(modifier = Modifier.background(Color(0xFFCCCCFF))) {
                                     Row() {
-                                        Text(item.text, modifier = Modifier.padding(10.dp), fontSize = 20.sp)
-                                        Text(text = item.created.substring(10,16), modifier = Modifier.padding(10.dp))
+                                        Text(
+                                            item.text,
+                                            modifier = Modifier.padding(10.dp),
+                                            fontSize = 20.sp
+                                        )
+                                        Text(
+                                            text = item.created.substring(10, 16),
+                                            modifier = Modifier.padding(10.dp)
+                                        )
                                     }
 //                                    Text(text = item.sender_username, fontSize = 15.sp, modifier = Modifier.padding(start = 10.dp, bottom = 10.dp))
                                 }
@@ -144,12 +168,13 @@ fun MessageList(navController: NavController, username: String, secret: String,v
                         )
 
                     }
-                }else{
+                } else {
                     Column(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(10.dp),
-                        horizontalAlignment = Alignment.Start) {
+                        horizontalAlignment = Alignment.Start
+                    ) {
                         Card(
                             modifier = Modifier
                                 .background(whiteBackground),
@@ -159,8 +184,17 @@ fun MessageList(navController: NavController, username: String, secret: String,v
                             content = {
                                 Column(modifier = Modifier.background(Color.DarkGray)) {
                                     Row() {
-                                        Text(text = item.text,color = Color.White, modifier = Modifier.padding(10.dp), fontSize = 20.sp)
-                                        Text(text = item.created.substring(10,16),color = Color.White, modifier = Modifier.padding(10.dp))
+                                        Text(
+                                            text = item.text,
+                                            color = Color.White,
+                                            modifier = Modifier.padding(10.dp),
+                                            fontSize = 20.sp
+                                        )
+                                        Text(
+                                            text = item.created.substring(10, 16),
+                                            color = Color.White,
+                                            modifier = Modifier.padding(10.dp)
+                                        )
                                     }
 //                                    Text(text = item.sender_username, fontSize = 15.sp, modifier = Modifier.padding(start = 10.dp, bottom = 10.dp))
                                 }
@@ -171,128 +205,137 @@ fun MessageList(navController: NavController, username: String, secret: String,v
                 }
             }
         }
-
-        Row(verticalAlignment = Alignment.Bottom,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(10.dp)
-//                .navigationBarsPadding()
-        ) {
-            OutlinedTextField(
-                value = titleValue.value,
-                onValueChange = {
-                    Typing(ctx, navController, username, secret, viewModel.chatId)
-                    titleValue.value = it },
+            Row(
+                verticalAlignment = Alignment.Bottom,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight()
+                    .padding(10.dp)
+                    .navigationBarsPadding()
+            ) {
+                OutlinedTextField(
+                    value = titleValue.value,
+                    onValueChange = {
+                        Typing(ctx, navController, username, secret, viewModel.chatId)
+                        titleValue.value = it
+                    },
 //                label = { Text(text = "Text") },
-                placeholder = { Text(text = "Message...") },
-                singleLine = true,
-                colors = TextFieldDefaults.outlinedTextFieldColors(
-                    focusedBorderColor = Purple500
-
-                    ,
-                    unfocusedBorderColor = DarkGray
+                    placeholder = { Text(text = "Message...") },
+                    singleLine = true,
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        focusedBorderColor = Purple500,
+                        unfocusedBorderColor = DarkGray
                     ),
-                shape = RoundedCornerShape(20.dp),
-                trailingIcon = {
-                    if (isVisible) {
-                        IconButton(
-                            onClick = { titleValue.value="" }
+                    shape = RoundedCornerShape(20.dp),
+                    trailingIcon = {
+                        if (isVisible) {
+                            IconButton(
+                                onClick = { titleValue.value = "" }
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Filled.Clear,
+                                    contentDescription = "Clear"
+                                )
+                            }
+                        }
+                    },
+                    modifier = Modifier
+//                        .heightIn(min = 50.dp)
+                        .fillMaxWidth(0.8f),
+                )
+                Spacer(modifier = Modifier.padding(end = 5.dp))
+                if (isVisible) {
+                    Button(
+                        enabled = true,
+                        modifier = Modifier
+                            .fillMaxWidth()
+//                    .padding(start = 32.dp, end = 32.dp)
+                        , onClick = {
+                            if (isVisible) {
+
+                                chatWebSocket.sendMessage(titleValue.value)
+                                ChatList(
+                                    ctx,
+                                    navController,
+                                    titleValue,
+                                    username,
+                                    secret,
+                                    result,
+                                    viewModel.chatId
+                                )
+                            }
+                            titleValue.value = ""
+                        },
+                        contentPadding = PaddingValues(),
+                        colors = ButtonDefaults.buttonColors(
+                            backgroundColor = Color.Transparent
+                        ),
+                        shape = RoundedCornerShape(cornerRadius)
+                    ) {
+
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .background(
+                                    brush = Brush.linearGradient(colors = gradientColors),
+                                    shape = RoundedCornerShape(cornerRadius)
+                                )
+                                .padding(horizontal = 4.dp, vertical = 8.dp),
+                            contentAlignment = Alignment.Center
                         ) {
                             Icon(
-                                imageVector = Icons.Filled.Clear,
-                                contentDescription = "Clear"
-                            )
-                        }
-                    }
-                },
-                modifier = Modifier
-//                    .heightIn(min=50.dp)
-                    .fillMaxWidth(0.8f),
-            )
-            Spacer(modifier = Modifier.padding(end = 5.dp))
-            if(isVisible){
-                Button(
-                    enabled = true,
-                    modifier = Modifier
-                        .fillMaxWidth()
-//                    .padding(start = 32.dp, end = 32.dp)
-                    ,onClick = {
-                        if(isVisible){
+                                imageVector = Icons.Default.Send,
+                                contentDescription = "send",
+                                tint = Color.White,
 
-                            chatWebSocket.sendMessage(titleValue.value)
-                            ChatList(ctx, navController,titleValue, username, secret, result, viewModel.chatId)
-                        }
-                        titleValue.value=""
-                    },
-                    contentPadding = PaddingValues(),
-                    colors = ButtonDefaults.buttonColors(
-                        backgroundColor = Color.Transparent
-                    ),
-                    shape = RoundedCornerShape(cornerRadius)
-                ) {
-
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .background(
-                                brush = Brush.linearGradient(colors = gradientColors),
-                                shape = RoundedCornerShape(cornerRadius)
-                            )
-                            .padding(horizontal = 4.dp, vertical = 8.dp)
-                        ,contentAlignment = Alignment.Center
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.Send,
-                            contentDescription = "send",
-                            tint = Color.White,
-
-                            )
+                                )
 //                    Text(
 //                        text = "Send",
 //                        fontSize = 20.sp,
 //                        color = Color.White
 //                    )
+                        }
                     }
-                }
-            }else{
-                Button(
-                    enabled = false,
-                    modifier = Modifier
-                        .fillMaxWidth()
-//                    .padding(start = 32.dp, end = 32.dp)
-                    ,onClick = {
-                    },
-                    contentPadding = PaddingValues(),
-                    colors = ButtonDefaults.buttonColors(
-                        backgroundColor = Color.Transparent
-                    ),
-                    shape = RoundedCornerShape(cornerRadius)
-                ) {
-
-                    Box(
+                } else {
+                    Button(
+                        enabled = false,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .background(
-                                color = Color.LightGray,
-                                shape = RoundedCornerShape(cornerRadius)
-                            )
-                            .padding(horizontal = 4.dp, vertical = 8.dp)
-                        ,contentAlignment = Alignment.Center
+//                    .padding(start = 32.dp, end = 32.dp)
+                        , onClick = {
+                        },
+                        contentPadding = PaddingValues(),
+                        colors = ButtonDefaults.buttonColors(
+                            backgroundColor = Color.Transparent
+                        ),
+                        shape = RoundedCornerShape(cornerRadius)
                     ) {
-                        Icon(
-                            imageVector = Icons.Default.Send,
-                            contentDescription = "send",
-                            tint = Color.White,
 
-                            )
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .background(
+                                    color = Color.LightGray,
+                                    shape = RoundedCornerShape(cornerRadius)
+                                )
+                                .padding(horizontal = 4.dp, vertical = 8.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Send,
+                                contentDescription = "send",
+                                tint = Color.White,
+
+                                )
 //                    Text(
 //                        text = "Send",
 //                        fontSize = 20.sp,
 //                        color = Color.White
 //                    )
+                        }
+
                     }
                 }
-            }
 
 //            Button(
 //                onClick = {
@@ -308,10 +351,10 @@ fun MessageList(navController: NavController, username: String, secret: String,v
 //            ) {
 //                Text(text = "Send")
 //            }
-        }
+            }
+    }
 
 //        Text(text = result.value)
-    }
     if (openLoader) {
         viewModel.startThread()
         DialogBoxLoading()

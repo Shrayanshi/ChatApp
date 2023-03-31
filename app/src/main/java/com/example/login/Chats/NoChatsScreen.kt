@@ -18,6 +18,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -36,7 +37,7 @@ fun NoChatsScreen(navController: NavController, username: String,secret: String,
     val editor: SharedPreferences.Editor = sharedPreferences.edit()
     Column() {
         TopAppBar(
-            title = { Text(text = "Your Chats") },
+            title = { Text(text = "Hi $username") },
             backgroundColor = Purple500,
             actions = {
                 IconButton(onClick = {
@@ -53,48 +54,42 @@ fun NoChatsScreen(navController: NavController, username: String,secret: String,
                     Icon(Icons.Default.ExitToApp, contentDescription = "")
                 }
             }
+            , modifier = Modifier.statusBarsPadding()
         )
-        Card(
-            //shape = MaterialTheme.shapes.medium,
-            shape = RoundedCornerShape(8.dp),
-            // modifier = modifier.size(280.dp, 240.dp)
-            modifier = Modifier.padding(10.dp,5.dp,10.dp,10.dp),
-            //set card elevation of the card
-            elevation =  10.dp,
-            contentColor = Color.Blue
-        ) {
-            Column(modifier = Modifier.clickable(onClick = {  })) {
+//        Card(
+//            //shape = MaterialTheme.shapes.medium,
+//            shape = RoundedCornerShape(8.dp),
+//            // modifier = modifier.size(280.dp, 240.dp)
+//            modifier = Modifier.padding(10.dp,5.dp,10.dp,10.dp),
+//            //set card elevation of the card
+//            elevation =  10.dp,
+//            contentColor = Color.Blue
+//        ) {
+            Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center, modifier = Modifier.fillMaxHeight(0.7f)) {
                 Image(
                     painter = painterResource(id = com.example.login.R.drawable.no_display),
                     contentDescription = null, // decorative
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
-                        .height(150.dp)
+                        .height(250.dp)
                         .fillMaxWidth()
                 )
 
                 Column(modifier = Modifier.padding(16.dp)) {
                     Text(
-                        text = "Username: $username",
-//                        style = MaterialTheme.typography.titleMedium,
-                        maxLines = 2,
-                        overflow = TextOverflow.Ellipsis
-                    )
-
-                    Spacer(modifier = Modifier.height(5.dp))
-
-                    Text(
                         text = " You Have No Chats",
-                        fontSize = 35.sp
+                        fontSize = 35.sp,
+                        color = Color.LightGray,
+                        fontWeight = FontWeight.Bold
                         //maxLines = 1,
                         //overflow = TextOverflow.Ellipsis,
 //                        style = MaterialTheme.typography.titleSmall,
                     )
                 }
-            }
+//            }
         }
     }
-    Box(modifier = Modifier.fillMaxSize()) {
+    Box(modifier = Modifier.fillMaxSize().navigationBarsPadding()) {
         FloatingActionButton(
             modifier = Modifier
                 .padding(all = 16.dp)

@@ -2,17 +2,18 @@ package com.example.login.Room
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.TopAppBar
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Clear
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -24,6 +25,7 @@ import androidx.wear.compose.material.Text
 import com.example.login.Login.DialogBoxLoading
 import com.example.login.Login.LoadingViewModel
 import com.example.login.Retrofit.LiveChats.CreateRoom
+import com.example.login.Retrofit.LiveChats.Typing
 import com.example.login.ui.theme.Purple500
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

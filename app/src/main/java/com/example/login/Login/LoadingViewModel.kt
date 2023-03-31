@@ -44,7 +44,7 @@ class LoadingViewModel: ViewModel() {
 
     val titleValue =  mutableStateOf("")
 
-    val chatTitle = mutableStateOf("new room")
+    val chatTitle = mutableStateOf("Untitled")
 
 //    here it is used to validate login
     val headers = HashMap<String, String>()

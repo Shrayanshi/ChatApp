@@ -39,7 +39,7 @@ fun CreateUser(ctx: Context,navController: NavController, userName: MutableState
             val model: DataModel? = response.body()
 
             val resp =
-                "Response Code : " + response.code() + "\n" + "User Name : " + model!!.username + "\n" + "Job : " + model!!.first_name
+                "Response Code : " + response.code() + "\n" + "User Name : " + model?.username + "\n" + "Job : " + model?.first_name
 
             result.value = resp
         }

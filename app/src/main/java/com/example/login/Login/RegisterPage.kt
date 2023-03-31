@@ -311,9 +311,9 @@ fun registerUtils(username:String, fname:String, lname:String, password:String, 
             if (password.trim().isNotEmpty() && cpassword.trim().isNotEmpty()){
                     if(password == cpassword){
                         ru = 1
-                }else Toast.makeText(context,"Password should contain atleast one number and one special character", Toast.LENGTH_SHORT).show()
-            } else Toast.makeText(context,"Please fill all the details", Toast.LENGTH_SHORT).show()
-    } else Toast.makeText(context,"Please fill all the details", Toast.LENGTH_SHORT).show()
+                    }else Toast.makeText(context,"Passwords should be matched!", Toast.LENGTH_SHORT).show()
+            } else Toast.makeText(context,"Please fill all the details!", Toast.LENGTH_SHORT).show()
+    } else Toast.makeText(context,"Please fill all the details!", Toast.LENGTH_SHORT).show()
     return ru
 }
 
