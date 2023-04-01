@@ -15,13 +15,13 @@ open class ChatWebSocket(private val loadingViewModel: LoadingViewModel): WebSoc
     val access = loadingViewModel.accessKey.value
 
     init {
-        val request = Request.Builder().url("wss://api.chatengine.io/chat/?projectID=e11eff09-4d56-45bc-99ba-daf1503b5ae0&chatID=${x}&accessKey=${access}").build()
+        val request = Request.Builder().url("wss://api.chatengine.io/chat/?projectID=4eb4eb0a-47cf-4c45-8814-9af4029f3924&chatID=${x}&accessKey=${access}").build()
         val client = OkHttpClient()
         webSocket = client.newWebSocket(request, this)
     }
 
     override fun onOpen(webSocket: WebSocket, response: Response) {
-        println("--------------------- $x")
+        println("--------------------- $access")
         Log.d("MYTAG", "WebSocket connection established.")
 //        webSocket.send("Hello, server!")
     }
@@ -60,7 +60,7 @@ open class ChatWebSocket(private val loadingViewModel: LoadingViewModel): WebSoc
             Log.d("MYTAG", "WebSocket failure: Broken pipe")
             // Reconnect the WebSocket here
             val request = Request.Builder()
-                .url("wss://api.chatengine.io/chat/?projectID=52690bdb-3b85-4b96-9081-27fa9b4dc10e&chatID=153464&accessKey=ca-529db72b-f253-4bdb-9be1-8719383ecc2a")
+                .url("wss://api.chatengine.io/chat/?projectID=4eb4eb0a-47cf-4c45-8814-9af4029f3924&chatID=153464&accessKey=ca-529db72b-f253-4bdb-9be1-8719383ecc2a")
                 .build()
             val client = OkHttpClient()
             this.webSocket = client.newWebSocket(request, this)

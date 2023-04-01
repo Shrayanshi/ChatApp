@@ -10,10 +10,7 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -26,26 +23,18 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.login.R
 import com.example.login.Retrofit.CreateUser
-import com.example.login.ui.theme.Purple200
-import com.example.login.ui.theme.Teal200
 import com.example.login.ui.theme.primaryColor
 import com.example.login.ui.theme.whiteBackground
-import kotlinx.coroutines.delay
 
 @Composable
 fun RegisterPage(navController: NavController,viewModel: LoadingViewModel) {
@@ -180,8 +169,7 @@ fun RegisterPage(navController: NavController,viewModel: LoadingViewModel) {
                     Button(onClick = {
                         if(registerUtils(usernameValue.value, fnameValue.value, lnameValue.value, passwordValue.value,
                                 confirmPasswordValue.value, context) == 1){
-                            CreateUser(context,navController, usernameValue, fnameValue, lnameValue, passwordValue, response, viewModel)
-                            viewModel.fnameValue.value = fnameValue.value
+                            CreateUser(context,navController, usernameValue, fnameValue, lnameValue.value, passwordValue.value, response, viewModel)
                         }
                     }, modifier = Modifier
                         .fillMaxWidth(0.8f)

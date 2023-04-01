@@ -20,7 +20,7 @@ fun Typing(ctx: Context, navController: NavController, username: String, secret:
     // builder and passing our base url
 
     val headers = HashMap<String, String>()
-    headers["Project-ID"] = "e11eff09-4d56-45bc-99ba-daf1503b5ae0"
+    headers["Project-ID"] = "4eb4eb0a-47cf-4c45-8814-9af4029f3924"
     headers["User-Name"] = "$username"
     headers["User-Secret"] = "$secret"
 

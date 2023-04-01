@@ -17,7 +17,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 fun GetChats(ctx: Context, navController: NavController, username:String, secret:String, viewModel: LoadingViewModel, result: MutableState<String>) {
 
-    viewModel.headers["Project-ID"] = "e11eff09-4d56-45bc-99ba-daf1503b5ae0"
+    viewModel.headers["Project-ID"] = "4eb4eb0a-47cf-4c45-8814-9af4029f3924"
     viewModel.headers["User-Name"] = "$username"
     viewModel.headers["User-Secret"] = "$secret"
 

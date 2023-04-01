@@ -97,7 +97,7 @@ fun LoginPage(navController: NavController,viewModel: LoadingViewModel, sharedPr
                         value = usernameValue.value,
                         onValueChange = { usernameValue.value = it },
                         label = { Text(text = "Username") },
-                        placeholder = { Text(text = "Email Address") },
+                        placeholder = { Text(text = "Username") },
                         singleLine = true,
                         modifier = Modifier.fillMaxWidth(0.8f),
                     )
